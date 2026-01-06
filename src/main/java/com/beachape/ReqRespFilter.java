@@ -1,11 +1,8 @@
 package com.beachape;
 
-import io.vertx.ext.web.RoutingContext;
-import jakarta.annotation.Nullable;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.container.*;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.ext.Provider;
 import org.jboss.logmanager.MDC;
 
