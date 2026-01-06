@@ -16,23 +16,12 @@ import org.jboss.logmanager.MDC;
 public class ReqRespFilter implements ContainerResponseFilter, ContainerRequestFilter {
     public static final String REQUEST_METHOD_FIELD = "request.filter.field";
     public static final String RESPONSE_METHOD_FIELD = "response.filter.field";
-    public static final String REMOTE_ADDRESS_FIELD = "remote.address";
     public static final String REQUEST_METHOD_FIELD_VALUE = "from the request filter";
     public static final String RESPONSE_METHOD_FIELD_VALUE = "from the response filter";
-
-    @Context
-    @Nullable
-    RoutingContext routingContext;
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
         MDC.put(REQUEST_METHOD_FIELD, REQUEST_METHOD_FIELD_VALUE);
-        if (routingContext != null && routingContext.request() != null && routingContext.request().remoteAddress() != null) {
-            String hostAddress = routingContext.request().remoteAddress().hostAddress();
-            if (hostAddress != null) {
-                MDC.put(REMOTE_ADDRESS_FIELD, hostAddress);
-            }
-        }
     }
 
     @Override
