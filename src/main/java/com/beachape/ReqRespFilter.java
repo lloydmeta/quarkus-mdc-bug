@@ -1,10 +1,10 @@
 package com.beachape;
 
+import io.quarkus.vertx.core.runtime.VertxMDC;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.ext.Provider;
-import org.jboss.logmanager.MDC;
 
 @PreMatching
 @ApplicationScoped
@@ -18,13 +18,13 @@ public class ReqRespFilter implements ContainerResponseFilter, ContainerRequestF
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
-        MDC.put(REQUEST_METHOD_FIELD, REQUEST_METHOD_FIELD_VALUE);
+        VertxMDC.INSTANCE.put(REQUEST_METHOD_FIELD, REQUEST_METHOD_FIELD_VALUE);
     }
 
     @Override
     public void filter(
             ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
-        MDC.put(RESPONSE_METHOD_FIELD, RESPONSE_METHOD_FIELD_VALUE);
+        VertxMDC.INSTANCE.put(RESPONSE_METHOD_FIELD, RESPONSE_METHOD_FIELD_VALUE);
     }
 
 }
