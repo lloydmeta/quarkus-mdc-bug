@@ -1,5 +1,7 @@
 # quarkus-mdc-bug
 
+[![Build and Test](https://github.com/lloydmeta/quarkus-mdc-bug/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/lloydmeta/quarkus-mdc-bug/actions/workflows/build.yml)
+
 Repro for new MDC (?) behaviour under 3.30.5
   * Bonus: Removing `WithSpan` in `SleepAuthMechanism#authenticate` will also make the test pass.
 
