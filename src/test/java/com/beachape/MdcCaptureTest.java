@@ -100,6 +100,42 @@ class MdcCaptureTest {
         );
     }
 
+    @Test
+    void unauthedEndpointCallingService_shouldHaveExpectedMdcFields_fromRequestFilter() {
+        given()
+                .when()
+                .get("/v1/greeting/hello-unauthed-calling-service")
+                .then()
+                .statusCode(200);
+
+        var mdc = getMdc();
+
+        var requestFilterField = mdc.get(ReqRespFilter.REQUEST_METHOD_FIELD);
+        assertEquals(
+                ReqRespFilter.REQUEST_METHOD_FIELD_VALUE,
+                requestFilterField,
+                "MDC field set in request filter should be available. MDC contents: " + mdc
+        );
+    }
+
+    @Test
+    void unauthedEndpointCallingService_shouldHaveExpectedMdcFields_fromResponseFilter() {
+        given()
+                .when()
+                .get("/v1/greeting/hello-unauthed-calling-service")
+                .then()
+                .statusCode(200);
+
+        var mdc = getMdc();
+
+        var responseFilterField = mdc.get(ReqRespFilter.RESPONSE_METHOD_FIELD);
+        assertEquals(
+                ReqRespFilter.RESPONSE_METHOD_FIELD_VALUE,
+                responseFilterField,
+                "MDC field set in response filter should be available. MDC contents: " + mdc
+        );
+    }
+
 
     private static InMemoryLogHandler accessLogHandler;
 

@@ -14,11 +14,11 @@ Repro for new MDC (?) behaviour under 3.30.5
 
 ## Bug
 
-MDC data set in _Response_ filters are lost after `HttpAuthenticationMechanism`(s) are run
+MDC data set in _Request_ filters are lost after `@WithSpan`-annotated methods (e.g. normal methods and/or on `HttpAuthenticationMechanism`(s)) are run
 
 ## Expected behaviour
 
-MDC data set in _Response_ filters are returned after `HttpAuthenticationMechanism`(s) are run.
+MDC data set in _Request_ filters are retained after `@WithSpan`-annotated methods (e.g. normal methods and/or on `HttpAuthenticationMechanism`(s)) are run.
 
 ## Affected versions
 
