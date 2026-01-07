@@ -11,7 +11,7 @@ public class GreetingService {
 
     private static final Logger LOGGER = Logger.getLogger(GreetingService.class);
 
-//    @WithSpan
+    @WithSpan
     public String processGreeting() {
         LOGGER.error("in greeting service with @WithSpan");
 
