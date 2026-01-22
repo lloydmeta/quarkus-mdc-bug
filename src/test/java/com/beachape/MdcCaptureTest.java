@@ -2,11 +2,14 @@ package com.beachape;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.jboss.logmanager.LogManager;
+import org.jboss.logmanager.ExtLogRecord;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Collections;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,6 +39,12 @@ class MdcCaptureTest {
         assertEquals(
                 ReqRespFilter.REQUEST_METHOD_FIELD_VALUE,
                 requestFilterField,
+                "MDC field set in request filter should be available. MDC contents: " + mdc
+        );
+        var requestFilterNonStringField = mdc.get(ReqRespFilter.REQUEST_METHOD_NON_STRING_FIELD);
+        assertEquals(
+                ReqRespFilter.REQUEST_METHOD_NON_STRING_VALUE,
+                requestFilterNonStringField,
                 "MDC field set in request filter should be available. MDC contents: " + mdc
         );
     }
@@ -78,6 +87,12 @@ class MdcCaptureTest {
                 requestFilterField,
                 "MDC field set in request filter should be available. MDC contents: " + mdc
         );
+        var requestFilterNonStringField = mdc.get(ReqRespFilter.REQUEST_METHOD_NON_STRING_FIELD);
+        assertEquals(
+                ReqRespFilter.REQUEST_METHOD_NON_STRING_VALUE,
+                requestFilterNonStringField,
+                "MDC field set in request filter should be available. MDC contents: " + mdc
+        );
     }
 
     @Test
@@ -114,6 +129,12 @@ class MdcCaptureTest {
         assertEquals(
                 ReqRespFilter.REQUEST_METHOD_FIELD_VALUE,
                 requestFilterField,
+                "MDC field set in request filter should be available. MDC contents: " + mdc
+        );
+        var requestFilterNonStringField = mdc.get(ReqRespFilter.REQUEST_METHOD_NON_STRING_FIELD);
+        assertEquals(
+                ReqRespFilter.REQUEST_METHOD_NON_STRING_VALUE,
+                requestFilterNonStringField,
                 "MDC field set in request filter should be available. MDC contents: " + mdc
         );
     }
@@ -157,12 +178,27 @@ class MdcCaptureTest {
         accessLogHandler.clear();
     }
 
-    private Map<String, String> getMdc() {
+    private Map<String, Object> getMdc() {
         // Get captured access log records
         var logs = accessLogHandler.getRecords();
         assertFalse(logs.isEmpty(), "Access log should have been captured");
 
-        var log = logs.getFirst();
-        return log.getMdcCopy();
+        ExtLogRecord log = logs.getFirst();
+        log.copyMdc();
+
+        try {
+            Field mdcField = ExtLogRecord.class.getDeclaredField("mdcCopy");
+            mdcField.setAccessible(true);
+            Object mdcObj = mdcField.get(log);
+            if (mdcObj instanceof Map) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> result = (Map<String, Object>) mdcObj;
+                return result;
+            } else {
+                throw new IllegalStateException("mdcCopy field is not a Map, it's a " + mdcObj.getClass().getName());
+            }
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException("Unable to access mdcCopy field on ExtLogRecord", e);
+        }
     }
 }
