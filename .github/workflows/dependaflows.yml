@@ -4,7 +4,7 @@ on: pull_request
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'quarkus-mdc-bug'
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'lloydmeta/quarkus-mdc-bug'
     steps:
       - name: Dependabot metadata
         id: metadata
