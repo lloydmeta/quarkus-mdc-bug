@@ -15,7 +15,6 @@ import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 
 import java.text.MessageFormat;
-import java.time.Duration;
 
 @ApplicationScoped
 @Priority(3)
@@ -35,13 +34,7 @@ public class SleepAuthMechanism implements HttpAuthenticationMechanism {
             return Uni.createFrom().nullItem();
         }
 
-        LOGGER.error("sleeping");
-
-        try {
-            Thread.sleep(Duration.ofMillis(10)); // Simulate delay for sleep authentication;
-        } catch (InterruptedException e) {
-            LOGGER.error("Sleep interrupted", e);
-        }
+        LOGGER.error("authing without sleep");
 
         return Uni.createFrom().nullItem();
     }
