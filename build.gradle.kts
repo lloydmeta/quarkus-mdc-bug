@@ -2,7 +2,7 @@ import com.adarshr.gradle.testlogger.TestLoggerExtension
 
 plugins {
     java
-    id("io.quarkus").version("3.30.7") // Inlined for Dependabot version management
+    id("io.quarkus").version("3.31.1") // Inlined for Dependabot version management
     id("com.adarshr.test-logger").version("4.0.0")
 }
 
@@ -14,7 +14,7 @@ repositories {
 val quarkusPlatformArtifactId: String by project
 
 dependencies {
-    implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:3.30.8")) // Inlined for Dependabot version management
+    implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:3.31.1")) // Inlined for Dependabot version management
     implementation("io.quarkus:quarkus-rest")
     implementation("io.quarkus:quarkus-rest-jackson")
     implementation("io.quarkus:quarkus-arc")
