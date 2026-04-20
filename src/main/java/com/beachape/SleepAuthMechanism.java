@@ -1,7 +1,6 @@
 package com.beachape;
 
 
-import io.opentelemetry.instrumentation.annotations.WithSpan;
 import io.quarkus.security.identity.IdentityProviderManager;
 import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.vertx.http.runtime.security.ChallengeData;
@@ -25,7 +24,6 @@ public class SleepAuthMechanism implements HttpAuthenticationMechanism {
     private static final String SLEEP_PREFIX = "Sleep ";
 
     @Override
-    @WithSpan // Comment this out and it will also pass
     public Uni<SecurityIdentity> authenticate(
             RoutingContext context, IdentityProviderManager identityProviderManager) {
         LOGGER.error("in sleep auth mechanism");
