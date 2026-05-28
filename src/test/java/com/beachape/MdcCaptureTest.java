@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Collections;
 
@@ -179,7 +180,14 @@ class MdcCaptureTest {
     }
 
     private Map<String, Object> getMdc() {
-        // Get captured access log records
+        try {
+            assertTrue(
+                    accessLogHandler.awaitRecord(Duration.ofSeconds(5)),
+                    "Access log should have been captured");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted while waiting for access log", e);
+        }
         var logs = accessLogHandler.getRecords();
         assertFalse(logs.isEmpty(), "Access log should have been captured");
 
