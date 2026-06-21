@@ -1,6 +1,5 @@
 package com.beachape;
 
-import io.opentelemetry.instrumentation.annotations.WithSpan;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.jboss.logging.Logger;
 
@@ -11,7 +10,6 @@ public class GreetingService {
 
     private static final Logger LOGGER = Logger.getLogger(GreetingService.class);
 
-    @WithSpan
     public String processGreeting() {
         LOGGER.error("in greeting service with @WithSpan");
 
